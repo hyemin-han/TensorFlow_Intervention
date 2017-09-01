@@ -105,7 +105,7 @@ for j in range(1):
 	accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 
 	## before get started, leave 30 cases
-	toleave = test_class.shuffle_order(len(mnist.x),10)
+	toleave = test_class.shuffle_order(len(mnist.x),32)
 
 	## exclude "to leave" datasets (leave lockbox dataset)
 	tolearncount = 0
@@ -113,7 +113,7 @@ for j in range(1):
 	lockboxcount = 0
 	for i in range(len(mnist.x)):
 		flag = 0
-		for j in range(10):
+		for j in range(32):
 			if i == toleave[j]:
 				flag = 1
 				if lockboxcount > 0:
@@ -142,7 +142,7 @@ for j in range(1):
 	## 1000 iterative learning. "1000" can be modified per user's convenience.
 	for i in range(1000):
 
-		## Shuffle it! -> extact learning data (90%)
+		## Shuffle it! -> extact learning data (70%)
 		arr = np.arange(len(tolearndata))
 
 		## shuffle it
