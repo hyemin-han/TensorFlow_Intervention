@@ -1,7 +1,7 @@
 clear all;
 
 % load test data
-M = csvread("test1.csv");
+M = csvread("../test1.csv");
 % delete id
 Newdata = M(:,2:11);
 % set aside test data
@@ -105,19 +105,19 @@ for trials =1:1000
     layers = [
         imageInputLayer([9 1 1])
 
-        convolution2dLayer(2,16,'Padding','same')
+        convolution2dLayer(2,32,'Padding','same')
         batchNormalizationLayer
         reluLayer
 
         maxPooling2dLayer(1,'Stride',2)
 
-        convolution2dLayer(2,64,'Padding','same')
+        convolution2dLayer(2,128,'Padding','same')
         batchNormalizationLayer
         reluLayer
 
         maxPooling2dLayer(1,'Stride',2)
 
-        convolution2dLayer(2,256,'Padding','same')
+        convolution2dLayer(2,512,'Padding','same')
         batchNormalizationLayer
         reluLayer
 
@@ -128,18 +128,18 @@ for trials =1:1000
     % set options
 %     Current = 'adam'; % select option -> will be file name rate = .001
 %     Current = 'sgdm'; % select option -> will be file name rate = .01
-    Current = 'rmsprop';
+    Current = 'sgdm';
     options = trainingOptions(Current, ...
         'MaxEpochs',200, ...
         'Shuffle','once', ...
         'ValidationData',{VD,VL}, ...
-        'ValidationFrequency',5, ...
-        'ValidationPatience',5,...
+        'ValidationFrequency',3, ...
+        'ValidationPatience',3,...
         'Verbose',false, ...
         'MiniBatchSize',round(leng/5),...
         'ExecutionEnvironment','auto');
         % 'Plots','training-progress',...
-        %'InitialLearnRate',0.001, ...
+        % 'InitialLearnRate',0.001, ...
     [net,info] = trainNetwork(TD,TL,layers,options);
 
     fprintf("%d %f\n",  trials,info.ValidationAccuracy(size(info.ValidationAccuracy,2)));

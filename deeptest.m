@@ -1,7 +1,7 @@
 clear all;
 
 % load test data
-M = csvread("test1.csv");
+M = csvread("../test1.csv");
 
 % delete id
 Newdata = M(:,2:11);
